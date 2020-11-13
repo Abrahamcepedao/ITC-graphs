@@ -4,6 +4,7 @@
 
 #pragma once
 #include <vector>
+#include <queue>
 #include <iostream>
 #include <algorithm>
 using namespace std;
@@ -17,9 +18,12 @@ class Graph{
         int qtyVertices;
         int qtyEdges;
         int findVertex(T vertex);
+        void dfsR(T vertex, vector<bool> &status);
     public:
         Graph(vector< vector<T> > adjList, int qtyVertices, int qtyEdges);
         void print();
+        void bfs();
+        void dfs();
 };
 
 // Constructor
@@ -83,4 +87,49 @@ void Graph<T>::print(){
         }
         cout << "\n";
     }
+}
+
+template<class T>
+void Graph<T>::bfs(){
+    vector<bool> status(vertices.size(), false);
+    queue<T> q;
+    q.push(vertices[0]);
+    status[0] = true;
+    while (!q.empty()) {
+        T vertex = q.front();
+        cout << vertex << " ";
+        int pos = findVertex(vertex);
+        for(int i = 0; i < adjList[pos]; i++){
+            if(!status[i]){
+                q.push(vertices[i]);
+                status[i] = true;
+            }
+        }
+        q.pop();
+    }
+    cout << "\n";
+}
+
+
+template<class T>
+void Graph<T>::dfs(){
+    vector<bool> status(vertices.size(), false);
+    dfsR(vertices[0], status);
+}
+
+template<class T>
+void Graph<T>::dfsR(T vertex, vector<bool> &status){
+    int pos = findVertex(vertex);
+    if(!status[pos]){
+        cout << vertex << " ";
+        status[pos] = true;
+        for(auto adj: adjList[pos]){
+            pos = findVertex(adj);
+            !status[pos] ? dfsR(adj, status) : void();
+            if(!status[pos]){
+                dfsR(adj, status);
+            }
+        }
+    }
+    
 }

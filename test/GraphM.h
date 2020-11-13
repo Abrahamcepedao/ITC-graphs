@@ -4,6 +4,7 @@
 
 #pragma once
 #include <vector>
+#include <queue>
 #include <iostream>
 #include <algorithm>
 using namespace std;
@@ -17,9 +18,12 @@ class GraphM{
         int qtyVertices;
         int qtyEdges;
         int findVertex(T vertex);
+    void dfsR(T vertex, vector<bool> &status);
     public:
         GraphM(vector< vector<T> > list, int qtyVertices, int qtyEdges);
         void print();
+        void bfs();
+        void dfs();
 };
 
 // Constructor
@@ -94,4 +98,53 @@ void GraphM<T>::print(){
         }
         cout << "\n";
     }
+}
+
+
+template<class T>
+void GraphM<T>::bfs(){
+    vector<bool> status(vertices.size(), false);
+    queue<T> q;
+    q.push(vertices[0]);
+    status[0] = true;
+    while (!q.empty()) {
+        T vertex = q.front();
+        cout << vertex << " ";
+        int pos = findVertex(vertex);
+        for(int i = 0; i < vertices.size(); i++){
+            if(adjMatrix[pos][i]){
+                if(!status[i]){
+                    q.push(vertices[i]);
+                    status[i] = true;
+                }
+            }
+        }
+        q.pop();
+    }
+    cout << "\n";
+}
+
+
+
+template<class T>
+void GraphM<T>::dfs(){
+    vector<bool> status(vertices.size(), false);
+    dfsR(vertices[0], status);
+}
+
+template<class T>
+void GraphM<T>::dfsR(T vertex, vector<bool> &status){
+    int pos = findVertex(vertex);
+    if(!status[pos]){
+        cout << vertex << " ";
+        status[pos] = true;
+        for(int i = 0; i < vertices.size(); i++){
+            if(adjMatrix[pos][i]){
+                if(!status[i]){
+                    dfsR(vertices[i], status);
+                }
+            }
+        }
+    }
+    
 }
