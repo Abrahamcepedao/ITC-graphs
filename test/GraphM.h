@@ -1,6 +1,6 @@
 // Abraham Cepeda Oseguera
 // A00827666
-// GraphM Class - Act 4.1.1 Grafo: sus representaciones - Matriz/Lista de Adyacencias
+// GraphM Class - Act 4.1.2 Grafo: sus representaciones y sus recorridos
 
 #pragma once
 #include <vector>

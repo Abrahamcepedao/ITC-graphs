@@ -1,6 +1,6 @@
 // Abraham Cepeda Oseguera
 // A00827666
-// Graph Class - Act 4.1.1 Grafo: sus representaciones - Matriz/Lista de Adyacencias
+// Graph Class - Act 4.1.2 Grafo: sus representaciones y sus recorridos
 
 #pragma once
 #include <vector>
@@ -19,6 +19,7 @@ class Graph{
         int qtyEdges;
         int findVertex(T vertex);
         void dfsR(T vertex, vector<bool> &status);
+        void printQueue(queue<T> q);
     public:
         Graph(vector< vector<T> > adjList, int qtyVertices, int qtyEdges);
         void print();
@@ -99,10 +100,11 @@ void Graph<T>::bfs(){
         T vertex = q.front();
         cout << vertex << " ";
         int pos = findVertex(vertex);
-        for(int i = 0; i < adjList[pos]; i++){
-            if(!status[i]){
-                q.push(vertices[i]);
-                status[i] = true;
+        for(int i = 0; i < adjList[pos].size(); i++){
+            int pos2 = findVertex(adjList[pos][i]);
+            if(!status[pos2]){
+                q.push(adjList[pos][i]);
+                status[pos2] = true;
             }
         }
         q.pop();
@@ -132,4 +134,14 @@ void Graph<T>::dfsR(T vertex, vector<bool> &status){
         }
     }
     
+}
+
+
+template<class T>
+void Graph<T>::printQueue(queue<T> q){
+    while (!q.empty()){
+        cout << q.front() << " ";
+        q.pop();
+    }
+    cout << "\n";
 }
